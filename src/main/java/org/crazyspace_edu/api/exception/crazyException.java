@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.exception;
+package org.crazyspace_edu.api.exception;
 
 import lombok.Getter;
 

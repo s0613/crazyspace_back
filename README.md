@@ -14,7 +14,7 @@
 #### 주요 프레임워크 / 라이브러리
 - Java 21 openjdk
 - JAVA 21
-- SpringBoot 3.1.7
+- SpringBoot 3.3.1
 - SpringBoot Security
 - Spring Data JPA
 - Lombok
@@ -30,14 +30,13 @@
 - H2
 - Mysql
 
-### 프론트엔드
-- Javascript
-- Typescript
-- Html/Css
-- Bootstrap5
-- Vue.js
+### 프론트엔드 *안광윤*
+- Flutter (Language: Dart)
 
-group = 'com.ssarylog'
+### 디자인 *최준빈*
+- Figma
+
+group = 'com.crazyspace'
 version = '0.0.1-SNAPSHOT'
 
 

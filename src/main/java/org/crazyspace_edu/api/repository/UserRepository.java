@@ -1,6 +1,6 @@
-package org.hackthon.crazyspace_edu.api.repository;
+package org.crazyspace_edu.api.repository;
 
-import org.hackthon.crazyspace_edu.api.domain.user.User;
+import org.crazyspace_edu.api.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

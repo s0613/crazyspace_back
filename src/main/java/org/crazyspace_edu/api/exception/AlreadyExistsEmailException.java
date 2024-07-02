@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.exception;
+package org.crazyspace_edu.api.exception;
 
 public class AlreadyExistsEmailException extends crazyException{
     public static final String MESSAGE = "이미 가입된 이메일입니다.";

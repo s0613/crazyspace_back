@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api;
+package org.crazyspace_edu.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

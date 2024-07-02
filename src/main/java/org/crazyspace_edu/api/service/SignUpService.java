@@ -1,12 +1,12 @@
-package org.hackthon.crazyspace_edu.api.service;
+package org.crazyspace_edu.api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.hackthon.crazyspace_edu.api.domain.user.AgreeYN;
-import org.hackthon.crazyspace_edu.api.domain.user.User;
-import org.hackthon.crazyspace_edu.api.domain.user.UserStatus;
-import org.hackthon.crazyspace_edu.api.exception.AlreadyExistsEmailException;
-import org.hackthon.crazyspace_edu.api.repository.UserRepository;
-import org.hackthon.crazyspace_edu.api.request.SignUpRequest;
+import org.crazyspace_edu.api.exception.AlreadyExistsEmailException;
+import org.crazyspace_edu.api.repository.UserRepository;
+import org.crazyspace_edu.api.request.SignUpRequest;
+import org.crazyspace_edu.api.domain.user.AgreeYN;
+import org.crazyspace_edu.api.domain.user.User;
+import org.crazyspace_edu.api.domain.user.UserStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

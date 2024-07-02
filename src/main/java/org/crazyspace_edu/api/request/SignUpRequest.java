@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.request;
+package org.crazyspace_edu.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

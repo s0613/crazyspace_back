@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.domain.user;
+package org.crazyspace_edu.api.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;

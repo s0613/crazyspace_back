@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api;
+package org.crazyspace_edu.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

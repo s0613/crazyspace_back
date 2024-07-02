@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.domain.user;
+package org.crazyspace_edu.api.domain.user;
 
 public enum UserStatus {
     ACTIVE,

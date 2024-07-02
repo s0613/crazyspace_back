@@ -1,4 +1,4 @@
-package org.hackthon.crazyspace_edu.api.domain;
+package org.crazyspace_edu.api.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
