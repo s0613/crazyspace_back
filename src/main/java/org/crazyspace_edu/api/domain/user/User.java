@@ -16,19 +16,19 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
     @Column(nullable = false)
-    private String user_password;
+    private String password;
 
     @Column(nullable = false, unique = true)
-    private String user_email;
+    private String email;
 
     @Column(nullable = false, unique = true)
-    private String user_phone;
+    private String phone;
 
     @Column(nullable = false)
-    private String user_birth;
+    private String birth;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -69,11 +69,11 @@ public class User {
     @Builder
     public User(Long id, String username, String user_password, String user_email, String user_phone, String user_birth, UserType userType, UserStatus userStatus, AgreeYN userSvcUsePcyAgmtYN, AgreeYN userPsInfoProcAgmtYN, AgreeYN userLocBaseSvcAgmtYN, AgreeYN userMktInfoRecvAgmtYN, AgreeYN userPushYN, int reg_dt, int chg_dt) {
         this.id = id;
-        this.username = username;
-        this.user_password = user_password;
-        this.user_email = user_email;
-        this.user_phone = user_phone;
-        this.user_birth = user_birth;
+        this.name = username;
+        this.password = user_password;
+        this.email = user_email;
+        this.phone = user_phone;
+        this.birth = user_birth;
         this.userType = userType;
         this.userStatus = userStatus;
         this.userSvcUsePcyAgmtYN = userSvcUsePcyAgmtYN;

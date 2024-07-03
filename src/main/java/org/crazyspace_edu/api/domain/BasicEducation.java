@@ -1,9 +1,6 @@
 package org.crazyspace_edu.api.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,4 +11,13 @@ public class BasicEducation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private String edu_title;
+
+    @Column(nullable = false)
+    private String edu_text;
+
+    @Column(nullable = false)
+    private int edu_progress;
 }

@@ -7,6 +7,7 @@ import org.crazyspace_edu.api.request.SignUpRequest;
 import org.crazyspace_edu.api.domain.user.AgreeYN;
 import org.crazyspace_edu.api.domain.user.User;
 import org.crazyspace_edu.api.domain.user.UserStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SignUpService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void signup(SignUpRequest signUpRequest) {
 
@@ -24,9 +26,13 @@ public class SignUpService {
             throw new AlreadyExistsEmailException();
         }
 
+        // 비밀번호 암호화
+        String encryptedPassword = passwordEncoder.encode(signUpRequest.getPassword());
+
+
         var user = User.builder()
                 .user_email(signUpRequest.getEmail())
-                .user_password(signUpRequest.getPassword())
+                .user_password(encryptedPassword)
                 .user_phone(signUpRequest.getPhone())
                 .username(signUpRequest.getUsername())
                 .user_birth(signUpRequest.getBirth())
