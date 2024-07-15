@@ -30,60 +30,66 @@ public class User {
     @Column(nullable = false)
     private String birth;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserType userType; // 유형
-
     @Column(nullable = false)
+    private UserStatus userStatus = UserStatus.ACTIVE; // 기본값 설정
+
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus; // 상태
-
     @Column(nullable = false)
+    private AgreeYN userSvcUsePcyAgmtYN = AgreeYN.Y; // 기본값 설정
+
     @Enumerated(EnumType.STRING)
-    private AgreeYN userSvcUsePcyAgmtYN; // 서비스 약간 동의
-
     @Column(nullable = false)
+    private AgreeYN userPsInfoProcAgmtYN = AgreeYN.Y; // 기본값 설정
+
     @Enumerated(EnumType.STRING)
-    private AgreeYN userPsInfoProcAgmtYN; // 개인정보처리방침동의여부
-
     @Column(nullable = false)
+    private AgreeYN userLocBaseSvcAgmtYN = AgreeYN.Y; // 기본값 설정
+
     @Enumerated(EnumType.STRING)
-    private AgreeYN userLocBaseSvcAgmtYN; // 위치기반서비스동의여부
-
     @Column(nullable = false)
+    private AgreeYN userMktInfoRecvAgmtYN = AgreeYN.Y; // 기본값 설정
+
     @Enumerated(EnumType.STRING)
-    private AgreeYN userMktInfoRecvAgmtYN; // 마케팅정보수신동의여부
+    @Column(nullable = false)
+    private AgreeYN userPushYN = AgreeYN.Y; // 기본값 설정
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AgreeYN userPushYN; // 알림수신동의여부
+    private boolean enabled = false; // 기본값 설정
 
     @Column(nullable = false)
-    private LocalDateTime reg_dt; // 등록일자
+    private LocalDateTime reg_dt; // @Column 추가
 
     @Column(nullable = false)
-    private LocalDateTime chg_dt; // 변경일자
-
-    private LocalDateTime createAt;
+    private LocalDateTime chg_dt; // @Column 추가
 
     @Builder
-    public User(Long id, String username, String user_password, String user_email, String user_phone, String user_birth, UserType userType, UserStatus userStatus, AgreeYN userSvcUsePcyAgmtYN, AgreeYN userPsInfoProcAgmtYN, AgreeYN userLocBaseSvcAgmtYN, AgreeYN userMktInfoRecvAgmtYN, AgreeYN userPushYN, int reg_dt, int chg_dt) {
+    public User(Long id, String name, String password, String email, String phone, String birth, UserStatus userStatus, AgreeYN userSvcUsePcyAgmtYN, AgreeYN userPsInfoProcAgmtYN, AgreeYN userLocBaseSvcAgmtYN, AgreeYN userMktInfoRecvAgmtYN, AgreeYN userPushYN, boolean enabled) {
         this.id = id;
-        this.name = username;
-        this.password = user_password;
-        this.email = user_email;
-        this.phone = user_phone;
-        this.birth = user_birth;
-        this.userType = userType;
-        this.userStatus = userStatus;
-        this.userSvcUsePcyAgmtYN = userSvcUsePcyAgmtYN;
-        this.userPsInfoProcAgmtYN = userPsInfoProcAgmtYN;
-        this.userLocBaseSvcAgmtYN = userLocBaseSvcAgmtYN;
-        this.userMktInfoRecvAgmtYN = userMktInfoRecvAgmtYN;
-        this.userPushYN = userPushYN;
-        this.reg_dt = createAt.now();
-        this.chg_dt = createAt.now();
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.birth = birth;
+        this.userStatus = UserStatus.ACTIVE;
+        this.userSvcUsePcyAgmtYN = AgreeYN.Y;
+        this.userPsInfoProcAgmtYN = AgreeYN.Y;
+        this.userLocBaseSvcAgmtYN = AgreeYN.Y;
+        this.userMktInfoRecvAgmtYN = AgreeYN.Y;
+        this.userPushYN = AgreeYN.Y;
+        this.enabled = enabled;
+        this.reg_dt = LocalDateTime.now();
+        this.chg_dt = LocalDateTime.now();
     }
 
+    @PrePersist
+    protected void onCreate() {
+        this.reg_dt = LocalDateTime.now();
+        this.chg_dt = LocalDateTime.now();
+    }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.chg_dt = LocalDateTime.now();
+    }
 }

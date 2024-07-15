@@ -8,20 +8,7 @@ spring:
     username: crazyspace_local
     password: crazyspace_
     driver-class-name: org.mariadb.jdbc.Driver
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: wkwjsrj5079@gmail.com
-    password: cfwaiiclbuxpxzef
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          timeout: 5000
-
+    initialization-mode: always
 
   jpa:
     hibernate:
@@ -35,18 +22,3 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
-openai:
-  api-key: "demo"
-
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true

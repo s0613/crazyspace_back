@@ -5,7 +5,7 @@ import org.crazyspace_edu.api.request.LoginRequest;
 import org.crazyspace_edu.api.request.SignUpRequest;
 import org.crazyspace_edu.api.response.LoginResponse;
 import org.crazyspace_edu.api.service.AuthService;
-import org.crazyspace_edu.api.service.SignUpService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    private final SignUpService signUpService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -36,9 +35,25 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signUp(SignUpRequest signUpRequest){
-        signUpService.signup(signUpRequest);
-        return ResponseEntity.ok("200");
+    @GetMapping("/auth/verify")
+    public ResponseEntity<String> verifyUser(@RequestParam String token) {
+        boolean isVerified = authService.verifyUser(token);
+        if (isVerified) {
+            return ResponseEntity.ok("Email verified successfully!");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid token or token expired!");
+        }
+    }
+
+    @PostMapping("/auth/signup")
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpRequest) {
+        try {
+            authService.signup(signUpRequest);
+            return ResponseEntity.ok("회원가입 성공");
+        } catch (Exception e) {
+            // 예외 처리 및 로깅
+            e.printStackTrace();
+            return new ResponseEntity<>("ㅅㅂ Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
