@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.crazyspace_edu.api.domain.GeneratedAiContent;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +32,9 @@ public class User {
 
     @Column(nullable = false)
     private String birth;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GeneratedAiContent> contents = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

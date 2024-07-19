@@ -10,6 +10,7 @@ import org.crazyspace_edu.api.exception.AlreadyExistsEmailException;
 import org.crazyspace_edu.api.repository.UserRepository;
 import org.crazyspace_edu.api.repository.VerificationTokenRepository;
 import org.crazyspace_edu.api.request.SignUpRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
