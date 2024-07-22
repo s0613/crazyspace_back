@@ -28,11 +28,10 @@ Content-Type: application/json
 "password": "1234a"
 }
 
-### 로그인
-POST http://localhost:8080/api//login
+### ai생성
+POST http://localhost:8080/api/generatedAiContents
 Content-Type: application/json
 
 {
-  "email": "ssary00@naver.com",
-  "password": "1234a"
+  "content": "한국어를 알려줘"
 }

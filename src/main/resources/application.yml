@@ -52,3 +52,4 @@ server:
       force: true
 jwt:
   secret: your-token
+  expired: 3600000000L

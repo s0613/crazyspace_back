@@ -1,10 +1,12 @@
-package org.crazyspace_edu.api.Util;
+package org.crazyspace_edu.api.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class JwtUtil {
     public static String createJwt(String userName, String secretKey, Long expiredMs) {
 

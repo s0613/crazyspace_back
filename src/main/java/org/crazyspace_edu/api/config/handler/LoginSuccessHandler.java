@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.crazyspace_edu.api.config.UserPrincipal;
+import org.crazyspace_edu.api.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -20,12 +22,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     final private ObjectMapper objectMapper;
+    final private JwtUtil jwtUtil;
+    final private String secret;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         log.info("[인증성공] user={}", principal.getUsername());
 
+        String jwt = jwtUtil.createJwt(principal.getUsername(), secret, 3600000000000L);
+
+        response.addHeader("Authorization", "Bearer " + jwt);
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(UTF_8.name());
         response.setStatus(SC_OK);

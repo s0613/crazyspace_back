@@ -13,6 +13,7 @@ import org.crazyspace_edu.api.config.handler.LoginSuccessHandler;
 import org.crazyspace_edu.api.domain.user.User;
 import org.crazyspace_edu.api.repository.UserRepository;
 import org.crazyspace_edu.api.service.AuthService;
+import org.crazyspace_edu.api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,12 +44,9 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class SecurityConfig {
     final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private final JwtUtil jwtUtil;
     @Value("${jwt.secret}")
     private String secretKey;
-
-    // AuthService 주입 제거
-    // @Lazy
-    // private final AuthService authService;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -60,9 +58,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/auth/**").permitAll() // 인증 필요없는 경로
+                        .anyRequest().authenticated()  // 그 외의 요청은 인증 필요
                 )
-                .addFilterBefore(new JwtFilter(userDetailsService(userRepository), secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(
                         sessionManagement ->
@@ -80,7 +79,7 @@ public class SecurityConfig {
     public EmailPasswordAuthFilter usernamePasswordAuthenticationFilter() {
         EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/login", objectMapper);
         filter.setAuthenticationManager(authenticationManager());
-        filter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper));
+        filter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper, jwtUtil, secretKey));
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
         filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
 
