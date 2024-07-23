@@ -4,9 +4,9 @@ Content-Type: application/json
 
 {
   "name": "song",
-  "email": "wkwjsrj5079@gmail.com",
-  "password": "1ㅈ234a",
-  "phone": "010ㅂ811111ㅈ011200",
+  "email": "ㅂwkwjsrj5079@gmail.com",
+  "password": "1ㅂㅈ234a",
+  "phone": "010ㅂㅂ811111ㅈ011200",
   "birth": "0601"
 }
 
@@ -31,6 +31,7 @@ Content-Type: application/json
 ### ai생성
 POST http://localhost:8080/api/generatedAiContents
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNzYXJ5MDBAbmF2ZXIuY29tIiwiaWF0IjoxNzIxNjU0NjAxLCJleHAiOjUzMjE2NTQ2MDF9.WHFgHUCWYJYl07VHz1AxVRhDtJrvcn0Z_9par-1KDwA
 
 {
   "content": "한국어를 알려줘"

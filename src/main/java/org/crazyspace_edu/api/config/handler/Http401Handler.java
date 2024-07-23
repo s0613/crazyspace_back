@@ -26,7 +26,7 @@ public class Http401Handler implements AuthenticationEntryPoint {
         log.error("[인증오류] 로그인이 필요합니다.");
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .code("401")
-                .message("로드인이 필요합니다.")
+                .message("로그인이 필요합니다.")
                 .build();
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(UTF_8.name());

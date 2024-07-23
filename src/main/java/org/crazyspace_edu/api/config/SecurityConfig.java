@@ -1,7 +1,6 @@
 package org.crazyspace_edu.api.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.crazyspace_edu.api.config.filter.EmailPasswordAuthFilter;
@@ -12,18 +11,15 @@ import org.crazyspace_edu.api.config.handler.LoginFailHandler;
 import org.crazyspace_edu.api.config.handler.LoginSuccessHandler;
 import org.crazyspace_edu.api.domain.user.User;
 import org.crazyspace_edu.api.repository.UserRepository;
-import org.crazyspace_edu.api.service.AuthService;
 import org.crazyspace_edu.api.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,11 +32,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
-
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
     final UserRepository userRepository;
     private final ObjectMapper objectMapper;
@@ -49,35 +44,33 @@ public class SecurityConfig {
     private String secretKey;
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers("/favicon.ico")
-                .requestMatchers("error");
-    }
-
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll() // 인증 필요없는 경로
                         .anyRequest().authenticated()  // 그 외의 요청은 인증 필요
                 )
-                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(
-                        sessionManagement ->
-                                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(usernamePasswordAuthenticationFilter(), JwtFilter.class)
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .exceptionHandling(exception -> {
                     exception.accessDeniedHandler(new Http403Handler(objectMapper));
                     exception.authenticationEntryPoint(new Http401Handler(objectMapper));
                 })
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
+                .csrf(AbstractHttpConfigurer::disable);
+        return http.build();
+    }
+
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter(secretKey, userDetailsService());
     }
 
     @Bean
     public EmailPasswordAuthFilter usernamePasswordAuthenticationFilter() {
-        EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/login", objectMapper);
+        EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/api/auth/login", objectMapper);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new LoginSuccessHandler(objectMapper, jwtUtil, secretKey));
         filter.setAuthenticationFailureHandler(new LoginFailHandler(objectMapper));
@@ -87,26 +80,26 @@ public class SecurityConfig {
         rememberMeServices.setAlwaysRemember(true);
         rememberMeServices.setValiditySeconds(3600 * 24 * 30);
         filter.setRememberMeServices(rememberMeServices);
+
+        log.info("EmailPasswordAuthFilter 설정 완료");
+
         return filter;
     }
 
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService(userRepository));
+        provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(provider);
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                User user = userRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException(username + "을 찾을 수 없습니다."));
-                return new UserPrincipal(user);
-            }
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            User user = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(username + "을 찾을 수 없습니다."));
+            return new UserPrincipal(user);
         };
     }
 

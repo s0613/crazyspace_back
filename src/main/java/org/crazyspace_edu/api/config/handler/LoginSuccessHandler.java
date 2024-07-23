@@ -30,11 +30,17 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         log.info("[인증성공] user={}", principal.getUsername());
 
-        String jwt = jwtUtil.createJwt(principal.getUsername(), secret, 3600000000000L);
+        try {
+            String jwt = jwtUtil.createJwt(principal.getUsername(), secret, 3600000000000L);
+            response.addHeader("Authorization", "Bearer " + jwt);
+            response.setContentType(APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(UTF_8.name());
+            response.setStatus(SC_OK);
 
-        response.addHeader("Authorization", "Bearer " + jwt);
-        response.setContentType(APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding(UTF_8.name());
-        response.setStatus(SC_OK);
+            log.info("[JWT 생성 성공] jwt={}", jwt);
+        } catch (Exception e) {
+            log.error("[JWT 생성 실패]", e);
+            throw new ServletException("Authentication success but failed to create JWT", e);
+        }
     }
 }

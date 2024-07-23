@@ -7,10 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.crazyspace_edu.api.util.JwtUtil;
-import org.crazyspace_edu.api.service.AuthService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,6 +22,7 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final String secretKey;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -30,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         logger.info("authorization = " + authorization);
 
-        if(authorization == null || !authorization.startsWith("Bearer ")){
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
             logger.error("authorization 이 없습니다.");
             filterChain.doFilter(request, response);
             return;
@@ -40,23 +41,25 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = authorization.split(" ")[1];
 
         // Token Expired 되었는지 여부
-        if(JwtUtil.isExpired(token, secretKey)){
+        if (JwtUtil.isExpired(token, secretKey)) {
             logger.error("Token 이 만료되었습니다.");
             filterChain.doFilter(request, response);
             return;
         }
 
         // UserName Token에서 꺼내기
-        String userName = "";
+        String userName = JwtUtil.getUserName(token, secretKey);
+
+        // UserDetailsService를 사용하여 사용자 세부 정보 로드
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 
         // 권한 부여
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         // Detail을 넣어준다.
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
-
     }
 }
