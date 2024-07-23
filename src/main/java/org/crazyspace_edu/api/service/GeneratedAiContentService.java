@@ -24,21 +24,18 @@ public class GeneratedAiContentService {
     }
 
     public GeneratedAiContent createContent(Long userId, AiContentRequest content) {
-        try {
-            User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-            GeneratedAiContent generatedAiContent = GeneratedAiContent.builder()
-                    .title(content.getContent().substring(0, 10))
-                    .content(content.getContent())
-                    .user(user)  // User 정보를 설정
-                    .build();
+        String contentText = content.getContent();
+        String title = contentText.length() > 10 ? contentText.substring(0, 10) : contentText;
 
-            contentRepository.save(generatedAiContent);
-            return generatedAiContent;
-        } catch (Exception e) {
-            log.error("Error creating content: {}", e.getMessage(), e);
-            throw e;
-        }
+        GeneratedAiContent generatedAiContent = GeneratedAiContent.builder()
+                .title(title)
+                .content(contentText)
+                .user(user)
+                .build();
+        contentRepository.save(generatedAiContent);
+        return generatedAiContent;
     }
 }
 

@@ -31,7 +31,7 @@ Content-Type: application/json
 ### ai생성
 POST http://localhost:8080/api/generatedAiContents
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNzYXJ5MDBAbmF2ZXIuY29tIiwiaWF0IjoxNzIxNjU0NjAxLCJleHAiOjUzMjE2NTQ2MDF9.WHFgHUCWYJYl07VHz1AxVRhDtJrvcn0Z_9par-1KDwA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMTczMzgzMywiZXhwIjo1MzIxNzMzODMzfQ.ui2nBXkZ0IU_rVxFkthwuWPW6Db4nB7wnr7Hs6YZUR4
 
 {
   "content": "한국어를 알려줘"

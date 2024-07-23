@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // Token 꺼내기
         String token = authorization.split(" ")[1];
-
+        logger.info("token = " + token);
         // Token Expired 되었는지 여부
         if (JwtUtil.isExpired(token, secretKey)) {
             logger.error("Token 이 만료되었습니다.");
@@ -48,18 +48,26 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // UserName Token에서 꺼내기
-        String userName = JwtUtil.getUserName(token, secretKey);
+        String email = JwtUtil.getEmail(token, secretKey);
+        logger.info("Extracted email from token: " + email);
 
-        // UserDetailsService를 사용하여 사용자 세부 정보 로드
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // UserDetailsService를 사용하여 사용자 세부 정보 로드
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            logger.info("UserDetails loaded: " + userDetails);
 
-        // 권한 부여
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            if (userDetails != null) {
+                // 권한 부여
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-        // Detail을 넣어준다.
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                // Detail을 넣어준다.
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                logger.info("Authentication set in context: " + authenticationToken);
+            }
+        }
+
         filterChain.doFilter(request, response);
     }
 }

@@ -30,42 +30,63 @@ public class GeneratedAiContentController {
         this.userRepository = userRepository;
     }
 
+//    @PostMapping("/generatedAiContents")
+//    public ResponseEntity<String> createContent(@RequestBody AiContentRequest aiContentRequest) {
+//        try {
+//            // 현재 인증된 사용자 정보 가져오기
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//            if (authentication == null) {
+//                log.error("Authentication is null");
+//                return new ResponseEntity<>("Authentication is null", HttpStatus.UNAUTHORIZED);
+//            }
+//
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//            if (userDetails == null) {
+//                log.error("UserDetails is null");
+//                return new ResponseEntity<>("UserDetails is null", HttpStatus.UNAUTHORIZED);
+//            }
+//
+//            String email = userDetails.getUsername();
+//
+//            // 사용자 ID 가져오기 (예시: userService를 통해 사용자 정보 조회)
+//            Optional<User> user = userRepository.findByEmail(email);
+//            if (!user.isPresent()) {
+//                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+//            }
+//
+//            log.info("User found: {}", user);
+//            Long userId = user.get().getId();
+//
+//            contentService.createContent(userId, aiContentRequest);
+//            return ResponseEntity.ok("AiContent created successfully");
+//        } catch (Exception e) {
+//            log.error("Error creating content: {}", e.getMessage(), e);
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     @PostMapping("/generatedAiContents")
     public ResponseEntity<String> createContent(@RequestBody AiContentRequest aiContentRequest) {
         try {
             // 현재 인증된 사용자 정보 가져오기
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            if (authentication == null) {
-                log.error("Authentication is null");
-                return new ResponseEntity<>("Authentication is null", HttpStatus.UNAUTHORIZED);
-            }
-
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            if (userDetails == null) {
-                log.error("UserDetails is null");
-                return new ResponseEntity<>("UserDetails is null", HttpStatus.UNAUTHORIZED);
-            }
-
             String email = userDetails.getUsername();
 
             // 사용자 ID 가져오기 (예시: userService를 통해 사용자 정보 조회)
             Optional<User> user = userRepository.findByEmail(email);
-            if (!user.isPresent()) {
-                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-            }
-
             log.info("User found: {}", user);
             Long userId = user.get().getId();
 
             contentService.createContent(userId, aiContentRequest);
             return ResponseEntity.ok("AiContent created successfully");
         } catch (Exception e) {
-            log.error("Error creating content: {}", e.getMessage(), e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
 }

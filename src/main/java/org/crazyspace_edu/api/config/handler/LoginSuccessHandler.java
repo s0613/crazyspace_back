@@ -31,7 +31,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("[인증성공] user={}", principal.getUsername());
 
         try {
-            String jwt = jwtUtil.createJwt(principal.getUsername(), secret, 3600000000000L);
+            String jwt = jwtUtil.generateToken(principal.getUsername(), secret, 3600000000000L);
             response.addHeader("Authorization", "Bearer " + jwt);
             response.setContentType(APPLICATION_JSON_VALUE);
             response.setCharacterEncoding(UTF_8.name());
