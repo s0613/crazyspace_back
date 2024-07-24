@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GeneratedAiContentService {
     private static final Logger log = LoggerFactory.getLogger(GeneratedAiContentService.class);
@@ -36,6 +38,10 @@ public class GeneratedAiContentService {
                 .build();
         contentRepository.save(generatedAiContent);
         return generatedAiContent;
+    }
+
+    public List<GeneratedAiContent> getTop5GeneratedContents() {
+        return contentRepository.findTop5ByOrderByChgDtDesc();
     }
 }
 
