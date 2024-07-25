@@ -23,14 +23,14 @@
 
 ### 서버
 - apache tomcat
-- naver cloud
+- AWS
 
 #### Build tool
 - Gradle 8.6
 
 #### Database
 - H2
-- Mysql
+- Mysql: mariaDB
 
 ### 프론트엔드 *안광윤*
 - Flutter (Language: Dart)
@@ -38,16 +38,6 @@
 ### 디자인 *최준빈*
 - Figma
 
-group = 'com.crazyspace'
+group = 'com.crazyspace_edu'
 version = '0.0.1-SNAPSHOT'
 
-
-#### 비밀번호 암호화
-1. 해시
-2. 해시 방식
-    - SHA1
-    - SHA256
-    - MD5
-    - 왜 이런걸로 비번 암호화 하면 안되는지 (salt 값이 없다.)
-3. BCrypt SCrypt, Argon2
-    - salt 값 (어떻게 넣는냐에 따라 달라짐)
