@@ -42,7 +42,7 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 openai:
-  api-key: "demo"
+  api-key: "sk-proj-A3t4iB47yiFy5ZTN8elGT3BlbkFJAwBT01FfPl7v7uVJUdtx"
 
 server:
   servlet:
@@ -52,4 +52,3 @@ server:
       force: true
 jwt:
   secret: 7a620a6cb951f5072105c91b9aec1a0399f3363712f729f04804f14379c07c5d5e70fdd28f807d3a4a2b59f23f7a0d9d28d91c924fafc7688426f8fdf1a5ed20
-  expired: 3600000000L

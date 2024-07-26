@@ -51,6 +51,8 @@ dependencies {
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    implementation 'dev.langchain4j:langchain4j-open-ai:0.30.0'
+    implementation 'dev.langchain4j:langchain4j:0.30.0'
     implementation 'org.json:json:20220924'
     implementation 'dev.langchain4j:langchain4j-ollama:0.27.1'
     implementation 'org.testcontainers:testcontainers:1.19.4'
