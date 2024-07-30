@@ -6,16 +6,17 @@ import com.crazyspace_edu.api.exception.ResourceNotFoundException;
 import com.crazyspace_edu.api.repository.GeneratedAiContentRepository;
 import com.crazyspace_edu.api.request.AiContentRequest;
 import com.crazyspace_edu.api.repository.UserRepository;
+import com.crazyspace_edu.api.response.ContentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GeneratedAiContentService {
-    private static final Logger log = LoggerFactory.getLogger(GeneratedAiContentService.class);
     private final GeneratedAiContentRepository contentRepository;
     private final UserRepository userRepository;
 
@@ -40,8 +41,14 @@ public class GeneratedAiContentService {
         return generatedAiContent;
     }
 
-    public List<GeneratedAiContent> getTop5GeneratedContents() {
-        return contentRepository.findTop5ByOrderByChgDtDesc();
+    public List<ContentDTO> getTop5GeneratedContents() {
+        List<GeneratedAiContent> contents = contentRepository.findTop5ByOrderByChgDtDesc();
+        return contents.stream()
+                .map(content -> new ContentDTO(
+                        content.getTitle(),
+                        content.getContent()))
+                .collect(Collectors.toList());
+
     }
 }
 

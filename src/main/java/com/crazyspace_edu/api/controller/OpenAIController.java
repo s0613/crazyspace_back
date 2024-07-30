@@ -18,6 +18,7 @@ public class OpenAIController {
     private final OpenAIService openAIService;
     @PostMapping(value = "/generate-text", produces = "application/json;charset=UTF-8")
     public ResponseEntity<AiContentResponse> chatAi(@RequestBody AiContentRequest createRequest){
+
         AiContentResponse response = openAIService.callOpenAiService(createRequest);
         if (response.getMessage() == null) {
             response = new AiContentResponse("please again");

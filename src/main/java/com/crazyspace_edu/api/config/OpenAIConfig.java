@@ -1,4 +1,4 @@
-package com.crazyspace_edu.api;
+package com.crazyspace_edu.api.config;
 
 import dev.langchain4j.chain.ConversationalChain;
 import dev.langchain4j.memory.ChatMemory;

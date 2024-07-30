@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -31,10 +33,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         try {
             String jwt = jwtUtil.generateToken(principal.getUsername(), secret, 3600000000000L);
-            response.addHeader("Authorization", "Bearer " + jwt);
             response.setContentType(APPLICATION_JSON_VALUE);
             response.setCharacterEncoding(UTF_8.name());
             response.setStatus(SC_OK);
+
+            Map<String, String> tokenMap = new HashMap<>();
+            tokenMap.put("token", jwt);
+            response.getWriter().write(objectMapper.writeValueAsString(tokenMap));
 
             log.info("[JWT 생성 성공] jwt={}", jwt);
         } catch (Exception e) {
@@ -43,3 +48,4 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
     }
 }
+

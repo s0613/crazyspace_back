@@ -38,36 +38,36 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserStatus userStatus = UserStatus.ACTIVE; // 기본값 설정
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AgreeYN userSvcUsePcyAgmtYN = AgreeYN.Y; // 기본값 설정
+    private AgreeYN userSvcUsePcyAgmtYN = AgreeYN.Y;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AgreeYN userPsInfoProcAgmtYN = AgreeYN.Y; // 기본값 설정
+    private AgreeYN userPsInfoProcAgmtYN = AgreeYN.Y;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AgreeYN userLocBaseSvcAgmtYN = AgreeYN.Y; // 기본값 설정
+    private AgreeYN userLocBaseSvcAgmtYN = AgreeYN.Y;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AgreeYN userMktInfoRecvAgmtYN = AgreeYN.Y; // 기본값 설정
+    private AgreeYN userMktInfoRecvAgmtYN = AgreeYN.Y;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AgreeYN userPushYN = AgreeYN.Y; // 기본값 설정
+    private AgreeYN userPushYN = AgreeYN.Y;
 
     @Column(nullable = false)
-    private boolean enabled = false; // 기본값 설정
+    private boolean enabled = false;
 
     @Column(nullable = false)
-    private LocalDateTime reg_dt; // @Column 추가
+    private LocalDateTime reg_dt;
 
     @Column(nullable = false)
-    private LocalDateTime chg_dt; // @Column 추가
+    private LocalDateTime chg_dt;
 
     @Builder
     public User(Long id, String name, String password, String email, String phone, String birth, UserStatus userStatus, AgreeYN userSvcUsePcyAgmtYN, AgreeYN userPsInfoProcAgmtYN, AgreeYN userLocBaseSvcAgmtYN, AgreeYN userMktInfoRecvAgmtYN, AgreeYN userPushYN, boolean enabled) {
@@ -77,12 +77,12 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birth = birth;
-        this.userStatus = UserStatus.ACTIVE;
-        this.userSvcUsePcyAgmtYN = AgreeYN.Y;
-        this.userPsInfoProcAgmtYN = AgreeYN.Y;
-        this.userLocBaseSvcAgmtYN = AgreeYN.Y;
-        this.userMktInfoRecvAgmtYN = AgreeYN.Y;
-        this.userPushYN = AgreeYN.Y;
+        this.userStatus = userStatus;
+        this.userSvcUsePcyAgmtYN = userSvcUsePcyAgmtYN;
+        this.userPsInfoProcAgmtYN = userPsInfoProcAgmtYN;
+        this.userLocBaseSvcAgmtYN = userLocBaseSvcAgmtYN;
+        this.userMktInfoRecvAgmtYN = userMktInfoRecvAgmtYN;
+        this.userPushYN = userPushYN;
         this.enabled = enabled;
         this.reg_dt = LocalDateTime.now();
         this.chg_dt = LocalDateTime.now();
@@ -97,5 +97,20 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         this.chg_dt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birth='" + birth + '\'' +
+                ", userStatus=" + userStatus +
+                ", enabled=" + enabled +
+                ", reg_dt=" + reg_dt +
+                ", chg_dt=" + chg_dt +
+                '}';
     }
 }

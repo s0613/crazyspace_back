@@ -1,5 +1,6 @@
 package com.crazyspace_edu.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class GeneratedAiContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +23,15 @@ public class GeneratedAiContent {
     @Column
     private String content;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     @Column(nullable = false)
-    private LocalDateTime reg_dt; // @Column 추가
+    private LocalDateTime reg_dt;
 
     @Column(nullable = false)
-    private LocalDateTime chg_dt; // @Column 추가
+    private LocalDateTime chg_dt;
 
     @Builder
     public GeneratedAiContent(String title, String content, User user) {
@@ -49,5 +51,16 @@ public class GeneratedAiContent {
     @PreUpdate
     protected void onUpdate() {
         this.chg_dt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "GeneratedAiContent{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", reg_dt=" + reg_dt +
+                ", chg_dt=" + chg_dt +
+                '}';
     }
 }
