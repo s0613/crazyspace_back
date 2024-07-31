@@ -7,6 +7,10 @@ import com.crazyspace_edu.api.repository.UserRepository;
 import com.crazyspace_edu.api.request.AiContentRequest;
 import com.crazyspace_edu.api.response.AiContentResponse;
 import dev.langchain4j.chain.ConversationalChain;
+import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.input.Prompt;
+import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +25,8 @@ public class OpenAIService {
     private final ConversationalChain conversationalChain;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+    private final ChatLanguageModel chatLanguageModel;
+    private final ChatMemory chatMemory;
 
     public AiContentResponse callOpenAiService(AiContentRequest createRequest){
         try {
@@ -28,8 +34,13 @@ public class OpenAIService {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
 
-            String answer = conversationalChain.execute(createRequest.getContent());
+//            String answer = conversationalChain.execute(createRequest.getContent());
+            Assistant assistant = AiServices.builder(Assistant.class)
+                    .chatLanguageModel(chatLanguageModel)
+                    .chatMemory(chatMemory)
+                    .build();
 
+            String answer = assistant.chat(createRequest.getContent());
             // Save user message
             ChatMessage userMessage = ChatMessage.builder()
                     .user(user)
