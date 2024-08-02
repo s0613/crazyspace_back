@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -59,6 +62,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AgreeYN userPushYN = AgreeYN.Y;
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     @Column(nullable = false)
     private boolean enabled = false;

@@ -98,6 +98,7 @@ public class SecurityConfig {
         return username -> {
             User user = userRepository.findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException(username + "을 찾을 수 없습니다."));
+            log.info("User found: " + user.getEmail());
             return new UserPrincipal(user);
         };
     }

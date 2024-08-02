@@ -42,6 +42,11 @@ public class EmailPasswordAuthFilter extends AbstractAuthenticationProcessingFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);log.info("EmailPasswordAuthFilter: successfulAuthentication 호출됨");
     }
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        log.error("Authentication failed: " + failed.getMessage());
+        super.unsuccessfulAuthentication(request, response, failed);
+    }
 
     @Getter
     private static class EmailPassword {

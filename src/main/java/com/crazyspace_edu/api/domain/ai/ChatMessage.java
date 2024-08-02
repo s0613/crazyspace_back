@@ -1,4 +1,4 @@
-package com.crazyspace_edu.api.domain;
+package com.crazyspace_edu.api.domain.ai;
 
 import com.crazyspace_edu.api.domain.user.User;
 import jakarta.persistence.*;
@@ -15,9 +15,10 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  id;
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+
+    @ManyToOne(targetEntity = Conversation.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "conversation_id")
+    private Conversation conversation;
 
     @Column(nullable = false)
     private String role; // User 또는 AI인지 확인하는 용도
@@ -26,18 +27,18 @@ public class ChatMessage {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
+    private LocalDateTime createdAt;
 
     @Builder
-    public ChatMessage(User user, String role, String content) {
-        this.user = user;
+    public ChatMessage(Conversation conversation, String role, String content) {
+        this.conversation = conversation;
         this.role = role;
         this.content = content;
-        this.timestamp = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 
     @PrePersist
     protected void onCreate() {
-        this.timestamp = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
     }
 }
