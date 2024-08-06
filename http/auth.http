@@ -28,22 +28,22 @@ Content-Type: application/json
 "password": "1234a"
 }
 
-### ai생성
-POST http://localhost:8080/api/generatedAiContents
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMTczMzgzMywiZXhwIjo1MzIxNzMzODMzfQ.ui2nBXkZ0IU_rVxFkthwuWPW6Db4nB7wnr7Hs6YZUR4
-
-{
-  "content": "한국어를 알려줘"
-}
+#### ai생성
+#POST http://localhost:8080/api/generatedAiContents
+#Content-Type: application/json
+#Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMjkyNDUzMiwiZXhwIjo1MzIyOTI0NTMyfQ.EBKZWjFDLDJk7cwgOeYmWsrQC2NVIJM0toRR8dR9NRQ
+#
+#{
+#  "content": "네 역할이 머지?"
+#}
 
 ### ai 대화
 POST http://localhost:8080/api/conversations/1/messages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMjU3ODQxMCwiZXhwIjo1MzIyNTc4NDEwfQ.s5Hp_KXzzI7As8NcNhjjoPLT2wxjNHjH8N53IkLFHis
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMjkyNDUzMiwiZXhwIjo1MzIyOTI0NTMyfQ.EBKZWjFDLDJk7cwgOeYmWsrQC2NVIJM0toRR8dR9NRQ
 
 {
-  "content": "내 친구 이름이 머야"
+  "content": "네 역할이 머지?"
 }
 
 ### ai대화 리스트

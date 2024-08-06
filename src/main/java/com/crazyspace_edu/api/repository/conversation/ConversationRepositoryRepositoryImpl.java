@@ -2,7 +2,6 @@ package com.crazyspace_edu.api.repository.conversation;
 
 import com.crazyspace_edu.api.domain.ai.ChatMessage;
 import com.crazyspace_edu.api.domain.ai.QConversation;
-import com.crazyspace_edu.api.response.ConversationDTO;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
