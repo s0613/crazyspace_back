@@ -3,20 +3,20 @@ package com.crazyspace_edu.api.service;
 import com.crazyspace_edu.api.domain.ai.ChatMessage;
 import com.crazyspace_edu.api.domain.ai.Conversation;
 import com.crazyspace_edu.api.repository.ChatMessageRepository;
-import com.crazyspace_edu.api.repository.conversation.ConversationRepositoryRepository;
-import com.crazyspace_edu.api.repository.UserRepository;
+import com.crazyspace_edu.api.repository.conversation.ConversationRepository;
+import com.crazyspace_edu.api.repository.conversation.ConversationRepositoryImpl;
 import com.crazyspace_edu.api.request.AiContentRequest;
 import com.crazyspace_edu.api.response.AiContentResponse;
-import dev.langchain4j.chain.ConversationalChain;
+import com.crazyspace_edu.api.response.ConversationListResponse;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +26,8 @@ public class OpenAIService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatLanguageModel chatLanguageModel;
     private final ChatMemory chatMemory;
-    private final ConversationRepositoryRepository conversationRepository;
+    private final ConversationRepository conversationRepository;
+
     private static final int MAX_TOKEN_LIMIT = 4096;
 
     public AiContentResponse callOpenAiService(Long conversationId, AiContentRequest createRequest) {
@@ -80,6 +81,23 @@ public class OpenAIService {
                 .content(content)
                 .build();
         chatMessageRepository.save(chatMessage);
+    }
+
+    public List<Long> getConversationIds(Long userId) {
+        return conversationRepository.conversationIdFindByUserId(userId);
+    }
+
+    public List<ConversationListResponse> conversationList(List<Long> ids) {
+        List<ConversationListResponse> responses = new ArrayList<>();
+        for (Long id : ids) {
+            Conversation conversation = conversationRepository.findById(id).orElseThrow();
+            LocalDateTime createTime = conversation.getCreatedAt();
+            String title = conversation.getMessages().getLast().getContent().substring(4,11);
+            Long conversationId = conversation.getId();
+            ConversationListResponse response = new ConversationListResponse(createTime, title,conversationId);
+            responses.add(response);
+        }
+        return responses;
     }
 
 }

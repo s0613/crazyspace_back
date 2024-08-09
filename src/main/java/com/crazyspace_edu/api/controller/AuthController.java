@@ -53,7 +53,7 @@ public class AuthController {
         } catch (Exception e) {
             // 예외 처리 및 로깅
             e.printStackTrace();
-            return new ResponseEntity<>("ㅅㅂ Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

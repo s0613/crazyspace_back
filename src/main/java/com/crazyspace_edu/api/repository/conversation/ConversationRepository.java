@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConversationRepositoryRepository extends JpaRepository<Conversation, Long>, ConversationRepositoryCustom {
+public interface ConversationRepository extends JpaRepository<Conversation, Long>, ConversationRepositoryCustom {
 
 }

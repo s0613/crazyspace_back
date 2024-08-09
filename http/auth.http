@@ -46,6 +46,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsI
   "content": "네 역할이 머지?"
 }
 
-### ai대화 리스트
-GET http://localhost:8080/api/conversations/1/messages
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMjQ4NDkzNywiZXhwIjo1MzIyNDg0OTM3fQ.QKEVa8Z0SNKUxy7-flohymsEMdCJQ6vMc41ljXp2L1M
+### ai대화 리스트 id
+GET http://localhost:8080/api/conversations/my/list
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzc2FyeTAwQG5hdmVyLmNvbSIsImlhdCI6MTcyMzE5MTc1MywiZXhwIjo1MzIzMTkxNzUzfQ.nYUu0Dui7Tlzr-nC-n6rCb8bPRqwnTlkHwtr1qqnhkI
