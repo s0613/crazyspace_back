@@ -1,11 +1,10 @@
-package com.crazyspace_edu.api.domain;
+package com.crazyspace_edu.api.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.crazyspace_edu.api.domain.user.User;
 
 import java.time.LocalDateTime;
 

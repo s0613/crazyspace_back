@@ -2,7 +2,7 @@ package com.crazyspace_edu.api.service;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import com.crazyspace_edu.api.domain.VerificationToken;
+import com.crazyspace_edu.api.domain.user.VerificationToken;
 import com.crazyspace_edu.api.domain.user.AgreeYN;
 import com.crazyspace_edu.api.domain.user.User;
 import com.crazyspace_edu.api.domain.user.UserStatus;
@@ -108,4 +108,5 @@ public class AuthService {
 
         mailSender.send(message);
     }
+
 }

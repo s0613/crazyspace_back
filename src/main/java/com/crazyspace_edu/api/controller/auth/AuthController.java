@@ -1,4 +1,4 @@
-package com.crazyspace_edu.api.controller;
+package com.crazyspace_edu.api.controller.auth;
 
 import com.crazyspace_edu.api.request.LoginRequest;
 import com.crazyspace_edu.api.request.SignUpRequest;

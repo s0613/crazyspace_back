@@ -58,6 +58,10 @@ public class SecurityConfig {
                     exception.accessDeniedHandler(new Http403Handler(objectMapper));
                     exception.authenticationEntryPoint(new Http401Handler(objectMapper));
                 })
+                .rememberMe(rm -> rm.rememberMeParameter("remember")
+                                .alwaysRemember(false)
+                                .tokenValiditySeconds(2592000)
+                        )
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }

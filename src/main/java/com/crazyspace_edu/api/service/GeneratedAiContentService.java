@@ -7,8 +7,6 @@ import com.crazyspace_edu.api.repository.GeneratedAiContentRepository;
 import com.crazyspace_edu.api.request.AiContentRequest;
 import com.crazyspace_edu.api.repository.UserRepository;
 import com.crazyspace_edu.api.response.ContentDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

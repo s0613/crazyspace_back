@@ -1,7 +1,6 @@
 package com.crazyspace_edu.api.controller;
 
 import com.crazyspace_edu.api.request.AiContentRequest;
-import com.crazyspace_edu.api.domain.GeneratedAiContent;
 import com.crazyspace_edu.api.domain.user.User;
 import com.crazyspace_edu.api.repository.UserRepository;
 import com.crazyspace_edu.api.response.ContentDTO;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")

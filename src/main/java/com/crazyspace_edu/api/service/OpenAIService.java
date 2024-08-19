@@ -92,7 +92,10 @@ public class OpenAIService {
         for (Long id : ids) {
             Conversation conversation = conversationRepository.findById(id).orElseThrow();
             LocalDateTime createTime = conversation.getCreatedAt();
-            String title = conversation.getMessages().getLast().getContent().substring(4,11);
+            String title = conversation.getMessages().getFirst().getContent().substring(3,11);
+            if(title.equals("") || title.length() == 0 || title.equals("null")){
+                title = "내용 없음";
+            }
             Long conversationId = conversation.getId();
             ConversationListResponse response = new ConversationListResponse(createTime, title,conversationId);
             responses.add(response);

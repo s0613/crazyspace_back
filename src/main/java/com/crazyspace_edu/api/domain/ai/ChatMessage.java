@@ -1,6 +1,5 @@
 package com.crazyspace_edu.api.domain.ai;
 
-import com.crazyspace_edu.api.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
